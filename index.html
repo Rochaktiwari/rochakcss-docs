@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rochakcss ⚡ — Utility-First CSS Framework</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Fraunces:ital,wght@0,300;0,700;0,900;1,300&display=swap"
+    rel="stylesheet" />
+  <!-- rochakcss via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/rochakcss/dist/rochak.js"></script>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0c0c10;
+      --surface: #13131a;
+      --card: #1a1a24;
+      --border: #2a2a3a;
+      --accent: #f5c542;
+      --accent2: #e05a2b;
+      --accent3: #4e9af1;
+      --text: #e8e6e0;
+      --muted: #7a7890;
+      --code-bg: #0f0f16;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245, 197, 66, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245, 197, 66, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(12, 12, 16, 0.94);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 58px;
+      gap: 1rem;
+    }
+
+    .nav-logo {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .nav-logo span {
+      color: var(--muted);
+      font-weight: 300;
+      font-size: 0.82rem;
+      margin-left: 6px;
+    }
+
+    .nav-center {
+      display: flex;
+      gap: 1.75rem;
+      align-items: center;
+    }
+
+    .nav-center a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-center a:hover {
+      color: var(--accent);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-social {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .nav-social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.7rem;
+      transition: all 0.2s;
+    }
+
+    .nav-social a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .nav-install-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #0c0c10;
+      padding: 7px 18px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-install-btn:hover {
+      background: #ffd86b;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(245, 197, 66, 0.3);
+    }
+
+    @media (max-width: 768px) {
+
+      .nav-center,
+      .nav-social {
+        display: none;
+      }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 92vh;
+      display: grid;
+      place-items: center;
+      padding: 4rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(245, 197, 66, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 197, 66, 0.1);
+      border: 1px solid rgba(245, 197, 66, 0.25);
+      color: var(--accent);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 3rem;
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0c0c10;
+    }
+
+    .btn-primary:hover {
+      background: #ffd86b;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(245, 197, 66, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--muted);
+      transform: translateY(-2px);
+    }
+
+    /* ── CDN STRIP ── */
+    .cdn-strip-wrap {
+      margin: 3rem auto 0;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .cdn-strip-label {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .cdn-strip {
+      display: inline-flex;
+      align-items: stretch;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 100%;
+    }
+
+    .cdn-strip-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 16px;
+      overflow: hidden;
+    }
+
+    .cdn-strip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .cdn-strip code {
+      color: var(--accent3);
+      font-size: 0.78rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cdn-copy-btn {
+      background: rgba(245, 197, 66, 0.1);
+      border: none;
+      border-left: 1px solid var(--border);
+      color: var(--accent);
+      padding: 0 18px;
+      min-height: 42px;
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-family: inherit;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .cdn-copy-btn:hover {
+      background: rgba(245, 197, 66, 0.2);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.4;
+    }
+
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 1rem;
+      max-width: 540px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── STEPS ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .step-card {
+      background: var(--surface);
+      padding: 2rem;
+      transition: background 0.2s;
+    }
+
+    .step-card:hover {
+      background: var(--card);
+    }
+
+    .step-num {
+      font-family: 'Fraunces', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: rgba(245, 197, 66, 0.12);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step-card h3 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .step-card p {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    .step-file {
+      display: inline-block;
+      margin-top: 0.75rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      color: var(--accent3);
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+
+    /* ── DEMO ── */
+    .demo-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .demo-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--code-bg);
+    }
+
+    .demo-tab {
+      padding: 10px 20px;
+      font-size: 0.75rem;
+      font-family: inherit;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .demo-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .demo-preview {
+      padding: 3rem 2rem;
+      min-height: 180px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .demo-preview.active {
+      display: flex;
+    }
+
+    .demo-code {
+      display: none;
+      background: var(--code-bg);
+      padding: 1.5rem;
+      overflow-x: auto;
+    }
+
+    .demo-code.active {
+      display: block;
+    }
+
+    .demo-code pre {
+      color: #cdd6f4;
+      font-size: 0.8rem;
+      line-height: 1.8;
+    }
+
+    .demo-code .tag {
+      color: #89b4fa;
+    }
+
+    .demo-code .attr {
+      color: #a6e3a1;
+    }
+
+    .demo-code .val {
+      color: #f9e2af;
+    }
+
+    .demo-code .comment {
+      color: var(--muted);
+    }
+
+    .card-demo {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid rgba(78, 154, 241, 0.2);
+      max-width: 340px;
+      width: 100%;
+    }
+
+    .demo-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(245, 197, 66, 0.15);
+      border-radius: 999px;
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .demo-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .demo-body {
+      color: #8892a4;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .demo-cta {
+      display: inline-block;
+      padding: 8px 18px;
+      background: var(--accent);
+      color: #0c0c10;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .demo-cta:hover {
+      background: #ffd86b;
+      transform: translateY(-2px);
+    }
+
+    /* ── QS CODE ── */
+    .qs-code {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      overflow-x: auto;
+      position: relative;
+    }
+
+    .qs-code pre {
+      font-size: 0.82rem;
+      line-height: 1.9;
+      color: #cdd6f4;
+    }
+
+    .qs-code .tag {
+      color: #89b4fa;
+    }
+
+    .qs-code .attr {
+      color: #a6e3a1;
+    }
+
+    .qs-code .val {
+      color: #f9e2af;
+    }
+
+    .qs-code .comment {
+      color: #585b70;
+    }
+
+    .copy-full-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 0.72rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-full-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── SCALE TABLE ── */
+    .scale-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .scale-table th {
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--code-bg);
+    }
+
+    .scale-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(42, 42, 58, 0.5);
+      color: var(--text);
+    }
+
+    .scale-table td:first-child {
+      color: var(--accent3);
+    }
+
+    .scale-table td:last-child {
+      color: var(--accent);
+    }
+
+    .scale-table tr:hover td {
+      background: rgba(245, 197, 66, 0.03);
+    }
+
+    /* ══════════════════════════════════════════════
+       PLAYGROUND
+    ══════════════════════════════════════════════ */
+    .pg-outer {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .pg-bar {
+      background: var(--code-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .pg-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .pg-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .pg-examples {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pg-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 3px 11px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pg-chip:hover,
+    .pg-chip.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(245, 197, 66, 0.07);
+    }
+
+    .pg-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 700px) {
+      .pg-cols {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pg-col-left {
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pg-col-right {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pg-col-header {
+      padding: 10px 16px;
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      background: rgba(15, 15, 22, 0.5);
+    }
+
+    #pg-editor {
+      flex: 1;
+      min-height: 300px;
+      resize: none;
+      background: var(--code-bg);
+      border: none;
+      outline: none;
+      color: var(--accent3);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.85;
+      padding: 1.25rem;
+      tab-size: 2;
+    }
+
+    #pg-frame {
+      flex: 1;
+      min-height: 300px;
+      border: none;
+      background: #fff;
+    }
+
+    .pg-run-bar {
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--code-bg);
+      flex-wrap: wrap;
+    }
+
+    .pg-run-btn {
+      background: var(--accent);
+      color: #0c0c10;
+      border: none;
+      padding: 8px 22px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.78rem;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pg-run-btn:hover {
+      background: #ffd86b;
+      transform: translateY(-1px);
+    }
+
+    .pg-auto-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .pg-auto-label input[type=checkbox] {
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .pg-hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    /* ── REFERENCE ── */
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .ref-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .ref-card:hover {
+      border-color: rgba(245, 197, 66, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .ref-card-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ref-card-title::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .class-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .class-tag {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      color: var(--accent3);
+      padding: 3px 9px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      cursor: default;
+      transition: all 0.15s;
+    }
+
+    .class-tag:hover {
+      border-color: var(--accent3);
+      background: rgba(78, 154, 241, 0.1);
+    }
+
+    /* ── API ── */
+    .api-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .api-card {
+      background: var(--surface);
+      padding: 1.75rem;
+    }
+
+    .api-card code {
+      display: block;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .api-card p {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .api-card .api-example {
+      margin-top: 0.75rem;
+      background: var(--code-bg);
+      border-left: 2px solid var(--accent);
+      padding: 8px 12px;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.72rem;
+      color: var(--accent3);
+      white-space: pre;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .footer-copy strong {
+      color: var(--accent);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="#" class="nav-logo">rochakcss <span>v1.0.0</span></a>
+
+    <div class="nav-center">
+      <a href="#install">Install</a>
+      <a href="#quickstart">Quick Start</a>
+      <a href="#demo">Demo</a>
+      <a href="#playground">Playground</a>
+
+      <a href="#classes">Classes</a>
+      <a href="#api">API</a>
+    </div>
+
+    <div class="nav-right">
+      <div class="nav-social">
+        <a href="https://rochaktiwari.online" target="_blank" rel="noopener" title="Website">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="2" y1="12" x2="22" y2="12" />
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+          </svg>
+        </a>
+        <a href="https://x.com/Rochak__tiwari" target="_blank" rel="noopener" title="X (Twitter)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          </svg>
+        </a>
+        <a href="https://github.com/Rochaktiwari" target="_blank" rel="noopener" title="GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
+          </svg>
+        </a>
+      </div>
+      <a href="https://www.npmjs.com/package/rochakcss" target="_blank" rel="noopener" class="nav-install-btn">Install
+        ↗</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-glow"></div>
+      <div>
+        <div class="badge">⚡ utility-first · zero build step · r-* prefix</div>
+        <h1>Style with<br /><em>intention.</em></h1>
+        <p class="hero-sub">A lightweight utility-first CSS framework powered by JavaScript — drop in one script tag and
+          start styling instantly.</p>
+        <div class="hero-actions">
+          <a href="#install" class="btn btn-primary">Get Started →</a>
+          <a href="#playground" class="btn btn-outline">Try Playground</a>
+        </div>
+        <!-- CDN strip -->
+        <div class="cdn-strip-wrap">
+          <p class="cdn-strip-label">CDN — paste into any HTML file</p>
+          <div class="cdn-strip">
+            <div class="cdn-strip-inner">
+              <div class="cdn-strip-dot"></div>
+              <code>&lt;script src="https://cdn.jsdelivr.net/npm/rochakcss/dist/rochak.js"&gt;&lt;/script&gt;</code>
+            </div>
+            <button class="cdn-copy-btn" onclick="copyCdn(this)">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="9" y="9" width="13" height="13" rx="2" />
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>
+              Copy
+            </button>
+          </div>
+          <!-- NPM strip -->
+          <div class="cdn-strip-wrap">
+            <p class="cdn-strip-label">OR — install via npm</p>
+            <div class="cdn-strip">
+              <div class="cdn-strip-inner">
+                <div class="cdn-strip-dot"></div>
+                <code>npm install rochakcss</code>
+              </div>
+              <button class="cdn-copy-btn" onclick="copyNpm(this, 'npm install rochakcss')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                Copy
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSTALL -->
+    <section id="install" class="fade-in">
+      <div class="section-label">Installation</div>
+      <h2 class="section-title">Two ways to<br />get started</h2>
+      <p class="section-desc">Use the CDN for instant setup with no tooling, or install via npm for bundler-based
+        projects.</p>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem;">
+
+        <!-- CDN card -->
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden;">
+          <div style="padding:1.5rem 1.5rem 1rem;">
+            <div
+              style="font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--accent); margin-bottom:0.5rem;">
+              Option 1 — CDN (Recommended)</div>
+            <p style="color:var(--muted); font-size:0.82rem; margin-bottom:0;">Paste one script tag — no installation,
+              no build step, works anywhere.</p>
+          </div>
+          <div
+            style="background:var(--code-bg); border-top:1px solid var(--border); padding:1.25rem 1.5rem; position:relative;">
+            <pre style="font-size:0.76rem; color:#cdd6f4; white-space:pre-wrap; padding-right:70px; line-height:1.8;"><span style="color:#89b4fa">&lt;script</span>
+  <span style="color:#a6e3a1">src</span>=<span style="color:#f9e2af">"https://cdn.jsdelivr.net/npm/
+  rochakcss/dist/rochak.js"</span><span style="color:#89b4fa">&gt;
+&lt;/script&gt;</span></pre>
+            <button class="copy-full-btn"
+              onclick="copyText('&lt;script src=&quot;https://cdn.jsdelivr.net/npm/rochakcss/dist/rochak.js&quot;&gt;&lt;/script&gt;', this)">copy</button>
+          </div>
+        </div>
+
+        <!-- npm card -->
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden;">
+          <div style="padding:1.5rem 1.5rem 1rem;">
+            <div
+              style="font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--accent); margin-bottom:0.5rem;">
+              Option 2 — npm</div>
+            <p style="color:var(--muted); font-size:0.82rem; margin-bottom:0;">Install via npm for Node.js or
+              bundler-based projects.</p>
+          </div>
+          <div
+            style="background:var(--code-bg); border-top:1px solid var(--border); padding:1.25rem 1.5rem; position:relative;">
+            <pre style="font-size:0.76rem; color:#cdd6f4; line-height:1.8; padding-right:70px;"><span style="color:var(--muted)">$</span> <span style="color:#a6e3a1">npm install rochakcss</span>
+
+<span style="color:var(--muted)">// in your JS file</span>
+<span style="color:#89b4fa">const</span> rochak = <span style="color:#cba6f7">require</span>(<span style="color:#f9e2af">'rochakcss'</span>);
+rochak.<span style="color:#f5c542">init</span>();</pre>
+            <button class="copy-full-btn" onclick="copyText('npm install rochakcss', this)">copy</button>
+          </div>
+          <div style="padding:0.9rem 1.5rem; border-top:1px solid var(--border);">
+            <a href="https://www.npmjs.com/package/rochakcss" target="_blank" rel="noopener"
+              style="font-size:0.75rem; color:var(--accent); text-decoration:none; display:inline-flex; align-items:center; gap:5px;">View
+              on npmjs.com ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="quickstart" class="fade-in" style="padding-top:0;">
+      <div class="section-label">Architecture</div>
+      <h2 class="section-title">How it works</h2>
+      <p class="section-desc">Four focused modules. Zero dependencies. Pure JavaScript DOM manipulation.</p>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <h3>Config</h3>
+          <p>Lookup tables for static classes, spacing prefixes, sizing prefixes, and value maps.</p><span
+            class="step-file">config.js</span>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <h3>Parser</h3>
+          <p>Pure function that takes one class name string and returns a CSS style object or null.</p><span
+            class="step-file">parser.js</span>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <h3>Applier</h3>
+          <p>Walks the DOM, calls the parser, and assigns inline styles via Object.assign().</p><span
+            class="step-file">applier.js</span>
+        </div>
+        <div class="step-card">
+          <div class="step-num">04</div>
+          <h3>Observer</h3>
+          <p>MutationObserver auto-applies styles to new or changed elements — no manual refresh needed.</p><span
+            class="step-file">index.js</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK START -->
+    <section class="fade-in" style="padding-top:0;">
+      <div class="section-label">Quick Start</div>
+      <h2 class="section-title">Zero to styled<br />in 60 seconds</h2>
+      <p class="section-desc">No build tools. No config files. Add the CDN script tag and write r-* classes.</p>
+
+      <div class="qs-code">
+        <button class="copy-full-btn" onclick="copyQs(this)">copy</button>
+        <pre><span class="comment">&lt;!-- 1. Add CDN script tag --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"https://cdn.jsdelivr.net/npm/rochakcss/dist/rochak.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="comment">&lt;!-- 2. Use r-* classes freely --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"r-flex r-items-center r-gap-4 r-p-6
+       r-bg-#1e293b r-rounded-3"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="val">"r-text-18 r-weight-bold r-color-#f5c542"</span><span class="tag">&gt;</span>
+    Hello, rochakcss!
+  <span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">&lt;!-- 3. Done. rochakcss auto-applies all r-* styles. --&gt;</span></pre>
+      </div>
+
+      <div style="margin-top:2.5rem;">
+        <h3 style="font-family:'Fraunces',serif; font-size:1.4rem; margin-bottom:1.25rem;">Numeric Scale</h3>
+        <p style="color:var(--muted); margin-bottom:1.25rem; font-size:0.82rem;">Most numeric values multiply by <strong
+            style="color:var(--accent);">4</strong> to produce pixels.</p>
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden;">
+          <table class="scale-table">
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>CSS Property</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>r-p-4</td>
+                <td>padding</td>
+                <td>16px</td>
+              </tr>
+              <tr>
+                <td>r-gap-3</td>
+                <td>gap</td>
+                <td>12px</td>
+              </tr>
+              <tr>
+                <td>r-w-20</td>
+                <td>width</td>
+                <td>80px</td>
+              </tr>
+              <tr>
+                <td>r-m-2</td>
+                <td>margin</td>
+                <td>8px</td>
+              </tr>
+              <tr>
+                <td>r-rounded-2</td>
+                <td>border-radius</td>
+                <td>8px</td>
+              </tr>
+              <tr>
+                <td>r-text-16</td>
+                <td>font-size</td>
+                <td>16px (direct)</td>
+              </tr>
+              <tr>
+                <td>r-opacity-7</td>
+                <td>opacity</td>
+                <td>0.7 (÷10)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE DEMO -->
+    <section id="demo" class="fade-in" style="padding-top:0;">
+      <div class="section-label">Live Demo</div>
+      <h2 class="section-title">See it in action</h2>
+      <p class="section-desc">Real r-* classes rendering in this very page.</p>
+      <div class="demo-wrap">
+        <div class="demo-tabs">
+          <button class="demo-tab active" onclick="switchTab(this,'preview1','code1')">Preview</button>
+          <button class="demo-tab" onclick="switchTab(this,'code1','preview1')">Code</button>
+        </div>
+        <div id="preview1" class="demo-preview active">
+          <div class="card-demo">
+            <div class="demo-pill">New Release</div>
+            <div class="demo-title">rochakcss v1.0</div>
+            <div class="demo-body">Style your HTML with utility classes — no build step, no config, pure JS power.</div>
+            <span class="demo-cta">Install Now</span>
+          </div>
+        </div>
+        <div id="code1" class="demo-code">
+          <pre><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"r-flex r-dir-col r-gap-3 r-p-6 r-bg-#1a1a2e r-rounded-3 r-border-1"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"r-text-11 r-weight-semibold r-color-#f5c542 r-uppercase r-spacing-2"</span><span class="tag">&gt;</span>New Release<span class="tag">&lt;/span&gt;</span>
+  <span class="tag">&lt;h2</span> <span class="attr">class</span>=<span class="val">"r-text-24 r-weight-bold r-color-#fff"</span><span class="tag">&gt;</span>rochakcss v1.0<span class="tag">&lt;/h2&gt;</span>
+  <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="val">"r-text-13 r-color-#8892a4 r-leading-6"</span><span class="tag">&gt;</span>Style your HTML with utility classes...<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="val">"r-bg-#f5c542 r-text-12 r-weight-bold r-rounded-1 r-px-4 r-py-2 r-pointer"</span><span class="tag">&gt;</span>Install Now<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAYGROUND -->
+    <section id="playground" class="fade-in" style="padding-top:0;">
+      <div class="section-label">Interactive</div>
+      <h2 class="section-title">Live Playground</h2>
+      <p class="section-desc">Edit HTML with r-* classes and see a live rendered preview instantly — powered by the CDN.
+        No local files needed.</p>
+
+      <div class="pg-outer">
+        <div class="pg-bar">
+          <div class="pg-dots">
+            <div class="pg-dot" style="background:#ff5f56"></div>
+            <div class="pg-dot" style="background:#ffbd2e"></div>
+            <div class="pg-dot" style="background:#27c93f"></div>
+          </div>
+          <div class="pg-examples">
+            <button class="pg-chip active" onclick="loadExample('card',this)">Card</button>
+            <button class="pg-chip" onclick="loadExample('button',this)">Button</button>
+            <button class="pg-chip" onclick="loadExample('badge',this)">Badge</button>
+            <button class="pg-chip" onclick="loadExample('nav',this)">Nav</button>
+            <button class="pg-chip" onclick="loadExample('glass',this)">Glass</button>
+          </div>
+        </div>
+        <div class="pg-cols">
+          <div class="pg-col-left">
+            <div class="pg-col-header">✏️ HTML Editor — write r-* classes here</div>
+            <textarea id="pg-editor" spellcheck="false"></textarea>
+          </div>
+          <div class="pg-col-right">
+            <div class="pg-col-header">👁 Live Preview</div>
+            <iframe id="pg-frame" title="rochakcss playground preview"></iframe>
+          </div>
+        </div>
+        <div class="pg-run-bar">
+          <button class="pg-run-btn" onclick="runPlayground()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5,3 19,12 5,21" />
+            </svg>
+            Run
+          </button>
+          <label class="pg-auto-label">
+            <input type="checkbox" id="pg-auto" checked onchange="autoRun=this.checked" />
+            Auto-run on edit
+          </label>
+          <span class="pg-hint">Tip: edit the code on the left, preview updates on the right</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLASS REFERENCE -->
+    <section id="classes" class="fade-in">
+      <div class="section-label">Reference</div>
+      <h2 class="section-title">Class reference</h2>
+      <p class="section-desc">Every utility grouped by category. Hover to explore.</p>
+      <div class="ref-grid">
+        <div class="ref-card">
+          <div class="ref-card-title">Display</div>
+          <div class="class-list"><span class="class-tag">r-flex</span><span class="class-tag">r-grid</span><span
+              class="class-tag">r-block</span><span class="class-tag">r-inline</span><span
+              class="class-tag">r-inline-block</span><span class="class-tag">r-hidden</span></div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">Flexbox</div>
+          <div class="class-list"><span class="class-tag">r-center</span><span class="class-tag">r-dir-row</span><span
+              class="class-tag">r-dir-col</span><span class="class-tag">r-wrap-yes</span><span
+              class="class-tag">r-wrap-no</span><span class="class-tag">r-items-center</span><span
+              class="class-tag">r-items-start</span><span class="class-tag">r-justify-between</span><span
+              class="class-tag">r-gap-{n}</span><span class="class-tag">r-grow-{n}</span></div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">Spacing</div>
+          <div class="class-list"><span class="class-tag">r-p-{n}</span><span class="class-tag">r-px-{n}</span><span
+              class="class-tag">r-py-{n}</span><span class="class-tag">r-pt-{n}</span><span
+              class="class-tag">r-pb-{n}</span><span class="class-tag">r-m-{n}</span><span
+              class="class-tag">r-mx-auto</span><span class="class-tag">r-m-auto</span></div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">Sizing</div>
+          <div class="class-list"><span class="class-tag">r-w-{n}</span><span class="class-tag">r-h-{n}</span><span
+              class="class-tag">r-w-full</span><span class="class-tag">r-w-half</span><span
+              class="class-tag">r-h-screen</span><span class="class-tag">r-full-screen</span><span
+              class="class-tag">r-min-w-{n}</span><span class="class-tag">r-max-w-{n}</span></div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">Typography</div>
+          <div class="class-list"><span class="class-tag">r-text-{px}</span><span
+              class="class-tag">r-weight-bold</span><span class="class-tag">r-color-{val}</span><span
+              class="class-tag">r-align-center</span><span class="class-tag">r-italic</span><span
+              class="class-tag">r-underline</span><span class="class-tag">r-uppercase</span><span
+              class="class-tag">r-leading-{n}</span><span class="class-tag">r-spacing-{n}</span></div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">Background &amp; Border</div>
+          <div class="class-list"><span class="class-tag">r-bg-{val}</span><span
+              class="class-tag">r-rounded-{n}</span><span class="class-tag">r-rounded-full</span><span
+              class="class-tag">r-border-{n}</span></div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">Position</div>
+          <div class="class-list"><span class="class-tag">r-relative</span><span
+              class="class-tag">r-absolute</span><span class="class-tag">r-fixed</span><span
+              class="class-tag">r-sticky</span><span class="class-tag">r-top-{n}</span><span
+              class="class-tag">r-bottom-{n}</span><span class="class-tag">r-z-{n}</span></div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">Effects</div>
+          <div class="class-list"><span class="class-tag">r-shadow-{n}</span><span
+              class="class-tag">r-opacity-{0–10}</span><span class="class-tag">r-blur-{px}</span><span
+              class="class-tag">r-bright-{n}</span><span class="class-tag">r-glass</span></div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">Transitions</div>
+          <div class="class-list"><span class="class-tag">r-transition-fast</span><span
+              class="class-tag">r-transition-normal</span><span class="class-tag">r-transition-slow</span><span
+              class="class-tag">r-transition-ultra</span><span class="class-tag">r-transition-{ms}</span></div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">Overflow &amp; Cursor</div>
+          <div class="class-list"><span class="class-tag">r-overflow-hidden</span><span
+              class="class-tag">r-overflow-auto</span><span class="class-tag">r-pointer</span><span
+              class="class-tag">r-no-pointer</span><span class="class-tag">r-cursor-default</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JS API -->
+    <section id="api" class="fade-in">
+      <div class="section-label">JavaScript API</div>
+      <h2 class="section-title">Programmatic control</h2>
+      <p class="section-desc">Three methods exposed on the global <code style="color:var(--accent);">rochak</code>
+        object.</p>
+      <div class="api-grid">
+        <div class="api-card"><code>rochak.refresh()</code>
+          <p>Re-scans the entire DOM and re-applies all r-* classes. Call after large dynamic renders.</p>
+          <pre class="api-example">rochak.refresh();</pre>
+        </div>
+        <div class="api-card"><code>rochak.parse(className)</code>
+          <p>Returns the CSS style object for a single class name, or null if unrecognised.</p>
+          <pre class="api-example">rochak.parse("r-p-4")
+// → { padding: "16px" }</pre>
+        </div>
+        <div class="api-card"><code>rochak.getConfig()</code>
+          <p>Returns all configuration tables — useful for editor plugins or documentation generators.</p>
+          <pre class="api-example">rochak.getConfig()
+// → { staticStyles,
+//     spacing, sizing }</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-links">
+          <a href="https://rochaktiwari.online" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            </svg>
+            rochaktiwari.online
+          </a>
+          <a href="https://x.com/Rochak__tiwari" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+            @Rochak__tiwari
+          </a>
+          <a href="https://github.com/Rochaktiwari" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
+            </svg>
+            Rochaktiwari
+          </a>
+          <a href="https://www.npmjs.com/package/rochakcss" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331z" />
+            </svg>
+            npmjs.com/package/rochakcss
+          </a>
+        </div>
+        <p class="footer-copy"><strong>rochakcss</strong> v1.0.0 · MIT License · Built by Rochak Tiwari</p>
+        <p class="footer-copy"><sup>*</sup>It's a personal project focused on improving my development skills and
+          exploring npm package creation.</p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // ── Scroll fade-in
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+
+    // ── Tab switcher
+    function switchTab(btn, showId, hideId) {
+      btn.closest('.demo-tabs').querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(showId).classList.add('active');
+      document.getElementById(hideId).classList.remove('active');
+    }
+
+    // ── Copy helpers
+    function copyText(text, btn) {
+      // decode HTML entities if present
+      const decoded = text.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+      navigator.clipboard.writeText(decoded).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'copied!';
+        setTimeout(() => btn.textContent = orig, 1500);
+      });
+    }
+
+    function copyCdn(btn) {
+      const tag = '<script src="https://cdn.jsdelivr.net/npm/rochakcss/dist/rochak.js"><\/script>';
+      navigator.clipboard.writeText(tag).then(() => {
+        const orig = btn.innerHTML;
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.innerHTML = orig, 1500);
+      });
+    }
+
+    function copyNpm(btn) {
+      const cmd = 'npm install rochakcss';
+      navigator.clipboard.writeText(cmd).then(() => {
+        const orig = btn.innerHTML;
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.innerHTML = orig, 1500);
+      });
+    }
+
+    function copyQs(btn) {
+      const code = '<script src="https://cdn.jsdelivr.net/npm/rochakcss/dist/rochak.js"><\/script>\n\n<div class="r-flex r-items-center r-gap-4 r-p-6 r-bg-#1e293b r-rounded-3">\n  <p class="r-text-18 r-weight-bold r-color-#f5c542">Hello, rochakcss!</p>\n</div>';
+      navigator.clipboard.writeText(code).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'copied!';
+        setTimeout(() => btn.textContent = orig, 1500);
+      });
+    }
+
+    // ══════════════════════════════════════════════
+    //  PLAYGROUND — iframe-based, CDN only
+    // ══════════════════════════════════════════════
+    const CDN_URL = 'https://cdn.jsdelivr.net/npm/rochakcss/dist/rochak.js';
+    let autoRun = true;
+    let autoTimer = null;
+
+    const examples = {
+      card: `<div style="padding:2rem;background:#0f172a;min-height:100vh;display:flex;align-items:center;justify-content:center;">
+  <div class="r-flex r-dir-col r-gap-4 r-p-6 r-bg-#1e293b r-rounded-4 r-shadow-6">
+    <span class="r-text-11 r-weight-bold r-color-#f5c542 r-uppercase r-spacing-2">New Release</span>
+    <h2 class="r-text-26 r-weight-bold r-color-#fff">rochakcss v1.0</h2>
+    <p class="r-text-14 r-color-#94a3b8 r-leading-6">Style your HTML instantly with r-* utility classes.</p>
+    <button class="r-bg-#f5c542 r-text-13 r-weight-bold r-px-5 r-py-2 r-rounded-2 r-pointer r-transition-fast">
+      Get Started
+    </button>
+  </div>
+</div>`,
+      button: `<div style="padding:2rem;background:#0f172a;min-height:100vh;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+  <button class="r-bg-#f5c542 r-text-14 r-weight-bold r-px-6 r-py-3 r-rounded-2 r-pointer r-transition-fast">Primary</button>
+  <button class="r-bg-transparent r-text-14 r-weight-bold r-color-#f5c542 r-px-6 r-py-3 r-rounded-2 r-pointer r-border-1 r-transition-fast">Outline</button>
+  <button class="r-bg-#ef4444 r-text-14 r-weight-bold r-color-#fff r-px-6 r-py-3 r-rounded-2 r-pointer r-transition-fast">Danger</button>
+</div>`,
+      badge: `<div style="padding:2rem;background:#0f172a;min-height:100vh;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;">
+  <span class="r-text-12 r-weight-semibold r-color-#4ade80 r-bg-#052e16 r-px-3 r-py-1 r-rounded-full">Active</span>
+  <span class="r-text-12 r-weight-semibold r-color-#f5c542 r-bg-#422006 r-px-3 r-py-1 r-rounded-full">Warning</span>
+  <span class="r-text-12 r-weight-semibold r-color-#f87171 r-bg-#450a0a r-px-3 r-py-1 r-rounded-full">Error</span>
+  <span class="r-text-12 r-weight-semibold r-color-#93c5fd r-bg-#0c1a3a r-px-3 r-py-1 r-rounded-full">Info</span>
+</div>`,
+      nav: `<div style="background:#0f172a;min-height:100vh;">
+  <nav class="r-flex r-items-center r-justify-between r-px-8 r-py-4 r-bg-#1e293b r-shadow-4">
+    <span class="r-text-18 r-weight-bold r-color-#f5c542">MyApp</span>
+    <div class="r-flex r-gap-6">
+      <a class="r-text-14 r-color-#94a3b8 r-pointer r-transition-fast">Home</a>
+      <a class="r-text-14 r-color-#94a3b8 r-pointer r-transition-fast">Docs</a>
+      <a class="r-text-14 r-color-#94a3b8 r-pointer r-transition-fast">GitHub</a>
+    </div>
+    <button class="r-bg-#f5c542 r-text-13 r-weight-bold r-px-4 r-py-2 r-rounded-2 r-pointer">Sign Up</button>
+  </nav>
+</div>`,
+      glass: `<div style="padding:2rem;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);">
+  <div class="r-glass r-rounded-4 r-p-8 r-border-1 r-shadow-8 r-flex r-dir-col r-gap-4">
+    <h2 class="r-text-24 r-weight-bold r-color-#fff">Frosted Glass</h2>
+    <p class="r-text-14 r-color-#e2e8f0 r-leading-6">r-glass applies backdrop-filter with a translucent background.</p>
+    <button class="r-bg-#fff r-text-13 r-weight-bold r-color-#6366f1 r-px-5 r-py-2 r-rounded-full r-pointer r-transition-fast">
+      Learn More
+    </button>
+  </div>
+</div>`
+    };
+
+    function buildIframe(html) {
+      return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<script src="${CDN_URL}"><\/script>
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}body{font-family:sans-serif;}</style>
+</head>
+<body>${html}</body>
+</html>`;
+    }
+
+    function runPlayground() {
+      const html = document.getElementById('pg-editor').value;
+      const frame = document.getElementById('pg-frame');
+      const doc = frame.contentDocument || frame.contentWindow.document;
+      doc.open();
+      doc.write(buildIframe(html));
+      doc.close();
+    }
+
+    document.getElementById('pg-editor').addEventListener('input', () => {
+      if (!autoRun) return;
+      clearTimeout(autoTimer);
+      autoTimer = setTimeout(runPlayground, 500);
+    });
+
+    function loadExample(key, btn) {
+      document.querySelectorAll('.pg-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('pg-editor').value = examples[key];
+      runPlayground();
+    }
+
+    window.addEventListener('load', () => {
+      document.getElementById('pg-editor').value = examples.card;
+      runPlayground();
+    });
+  </script>
+</body>
+
+</html>
